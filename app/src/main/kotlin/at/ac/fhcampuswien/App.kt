@@ -6,7 +6,6 @@ package at.ac.fhcampuswien
 class App {
     // Game logic for a number guessing game
     fun playNumberGame(digitsToGuess: Int = 4) {
-        //TODO: build a menu which calls the functions and works with the return values
         print("Please enter your guess:")
         var guess: Int = readln().toInt()
         var random = generateRandomNonRepeatingNumber(digitsToGuess)
@@ -31,7 +30,6 @@ class App {
      * @throws IllegalArgumentException if the length is more than 9 or less than 1.
      */
     val generateRandomNonRepeatingNumber: (Int) -> Int = { length ->
-        //TODO implement the function
         if (length !in (1..9)){
             throw IllegalArgumentException()
         }
@@ -56,20 +54,20 @@ class App {
      * @throws IllegalArgumentException if the inputs do not have the same number of digits.
      */
     val checkUserInputAgainstGeneratedNumber: (Int, Int) -> CompareResult = { input, generatedNumber ->
-        //TODO implement the function
-        var inputString = input.toString()
-        var generatedString = generatedNumber.toString()
+        val inputString = input.toString()
+        val generatedString = generatedNumber.toString()
         var correctGuess = 0
         var correctPosition = 0
-        if (input !is Int || generatedNumber !is Int) {
+        if (inputString.length != generatedString.length || generatedString.length != generatedString.toCharArray().toSet().size) {
             throw IllegalArgumentException()
         }
-        correctGuess = inputString.count { it in generatedString }
+        correctGuess = inputString.toSet().count {it in generatedString}
+
         inputString.forEachIndexed { index, it ->
-            if (index < generatedString.length &&  it == generatedString[index])
+            if (index < generatedString.length && it == generatedString[index])
                 correctPosition++
         }
-        correctPosition = inputString.commonPrefixWith(generatedString).length
+       // correctPosition = inputString.commonPrefixWith(generatedString).length
         CompareResult(correctGuess, correctPosition)
     }
 }
@@ -78,5 +76,5 @@ fun main() {
     println("Hello World!")
     var code = App()
     code.playNumberGame()
-    // TODO: call the App.playNumberGame function with and without default arguments
+    //code.playNumberGame(5)
 }
