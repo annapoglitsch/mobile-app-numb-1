@@ -7,6 +7,13 @@ class App {
     // Game logic for a number guessing game
     fun playNumberGame(digitsToGuess: Int = 4) {
         //TODO: build a menu which calls the functions and works with the return values
+        print("Please enter your guess:")
+        var guess: Int = readln().toInt()
+        var random = generateRandomNonRepeatingNumber(digitsToGuess)
+        var check = checkUserInputAgainstGeneratedNumber(guess, random)
+
+        println("Generated number: $random")
+        print("User input: 1234, Output: $check")
     }
 
     /**
@@ -25,7 +32,11 @@ class App {
      */
     val generateRandomNonRepeatingNumber: (Int) -> Int = { length ->
         //TODO implement the function
-        0   // return value is a placeholder
+        if (length !in (1..9)){
+            throw IllegalArgumentException()
+        }
+        val random = (1..9).shuffled().distinct().take(length)
+        random.joinToString("").toInt()
     }
 
     /**
@@ -46,11 +57,26 @@ class App {
      */
     val checkUserInputAgainstGeneratedNumber: (Int, Int) -> CompareResult = { input, generatedNumber ->
         //TODO implement the function
-        CompareResult(0, 0)   // return value is a placeholder
+        var inputString = input.toString()
+        var generatedString = generatedNumber.toString()
+        var correctGuess = 0
+        var correctPosition = 0
+        if (input !is Int || generatedNumber !is Int) {
+            throw IllegalArgumentException()
+        }
+        correctGuess = inputString.count { it in generatedString }
+        inputString.forEachIndexed { index, it ->
+            if (index < generatedString.length &&  it == generatedString[index])
+                correctPosition++
+        }
+        correctPosition = inputString.commonPrefixWith(generatedString).length
+        CompareResult(correctGuess, correctPosition)
     }
 }
 
 fun main() {
     println("Hello World!")
+    var code = App()
+    code.playNumberGame()
     // TODO: call the App.playNumberGame function with and without default arguments
 }

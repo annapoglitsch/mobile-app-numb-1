@@ -10,14 +10,49 @@
 ### Describe how Kotlin handles null safety. What are nullable types and non-null types in Kotlin? (0,5 points)
 
 <span style="color:blue">Provide your answer here! </span>
-> Note: you can also use code snippets to illustrate your answer. 
+> Note: you can also use code snippets to illustrate your answer.
 
+## Answer:
+In Kotlin you have to define a variable as "null". 
+To do that you have to use a "?" after the type (Int, String, ...) of the variable.
+This would look like this: 
+```kotlin
+val b: String? = null
+```
+If a "interaction" is wanted with the variable a "?" is needed again. In this case, nothing will happen, however, the "?"
+is needed so that the program doesn't crash.
+```kotlin
+val b: String? = null
+println(b?.lowercase())
+```
+
+The code above is a perfect example for a nullable type. What is now a non-null type?
 ```kotlin 
 // example code snippet
 val a: String = "value" // non-null type
 ```
-
+A non-null type is when you declared your type without a "?" and a "val". So if I use the code right above, I cannot say:
+```kotlin 
+// example code snippet
+val a: String = "value" // non-null type
+//a = null       this is not possible
+```
+You can't set the string null because it is missing "?" at the initialization and "var" instead of "val". 
+This would be the correct way:
+```kotlin 
+// example code snippet
+var a: String? = "value" // non-null type
+a = null       //this is possible
+```
 ### What are lambda expressions and higher order functions in Kotlin? Why would you store a function inside a variable? (0,5 points)
+
+A Lambda expression is an object. That's why we can save it in a variable.
+Why would we save it in a variable?
+Because we can use and change a variable throughout the code. For instance I have a lambda expression
+that takes a String as a parameter and prints a message, I can "call"/use the variable and change the input 
+and after compiling my message with the parameter/variable gets printed. That makes the code more readable
+and easy to use.
+Higher-functions can use other functions as parameter or even return functions. 
 
 <span style="color:blue">Provide your answer here!</span>
 
