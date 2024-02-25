@@ -6,13 +6,28 @@ package at.ac.fhcampuswien
 class App {
     // Game logic for a number guessing game
     fun playNumberGame(digitsToGuess: Int = 4) {
-        print("Please enter your guess:")
-        var guess: Int = readln().toInt()
-        var random = generateRandomNonRepeatingNumber(digitsToGuess)
-        var check = checkUserInputAgainstGeneratedNumber(guess, random)
+        var end: String = "no"
+        val specialCh = "-?[0-9]+(\\.[0-9]+)?".toRegex()
+        while (end != "yes"){
+            print("Please enter your guess of $digitsToGuess digits: ")
+            var guess = readln()
+            //println(guess.matches(specialCh))
+            while (guess.length != digitsToGuess || guess.matches(specialCh) == false){
+                print("Your input was too long or too short. Special Characters are not counting as well. Please enter your guess of $digitsToGuess digits: ")
+                guess = readln()
+            }
 
-        println("Generated number: $random")
-        print("User input: 1234, Output: $check")
+            val random = generateRandomNonRepeatingNumber(digitsToGuess)
+            val check = checkUserInputAgainstGeneratedNumber(guess.toInt(), random)
+
+            println("Generated number: $random")
+            println("User input: 1234, $check")
+
+            print("Do you want to end the game? [yes][no] ")
+            end = readln()
+        }
+        println()
+        println("Thank you for playing the game.")
     }
 
     /**
@@ -33,7 +48,7 @@ class App {
         if (length !in (1..9)){
             throw IllegalArgumentException()
         }
-        val random = (1..9).shuffled().distinct().take(length)
+        val random = (1..9).shuffled().take(length)
         random.joinToString("").toInt()
     }
 
